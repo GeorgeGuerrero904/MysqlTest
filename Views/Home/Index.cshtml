@@ -1,0 +1,22 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+
+<table>
+    <thead>
+        <tr>
+            <td>Id</td>
+            <td>Name</td>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (Table item in ViewBag.data)
+        {
+            <tr>
+                <td>@item.Id</td>
+                <td>@item.Name</td>
+            </tr>
+        }
+    </tbody>
+</table>
