@@ -1,8 +1,12 @@
-﻿using MySql.Data.MySqlClient;
+﻿using Microsoft.CodeAnalysis.Elfie.Diagnostics;
+using MySql.Data.MySqlClient;
+using MySqlTest.Models.Interfaces;
+using System.Data;
+using System.Text;
 
 namespace MySqlTest.Models
 {
-    public class TableContext
+    public class TableContext : ITableContext
     {
         public string ConnectionString { get; set; }
 
@@ -38,6 +42,27 @@ namespace MySqlTest.Models
                 }
             }
             return list;
+        }
+
+        public bool InsertRow(Table table)
+        {
+            try
+            {
+                using (MySqlConnection conn = GetConnection())
+                {
+
+                    string sql = $"INSERT INTO Test (Name) VALUES ('{table.Name}')";
+                    conn.Open();
+                    MySqlCommand cmd = new MySqlCommand(sql, conn);
+
+                    cmd.CommandType = CommandType.Text;
+                    cmd.ExecuteNonQuery();
+                    return true;
+                }
+            }catch (Exception ex)
+            {
+                return false;
+            }
         }
     }
 }
