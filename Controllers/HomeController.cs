@@ -46,7 +46,30 @@ namespace MySqlTest.Controllers
             return RedirectToAction("Index", new { message = "Information put is not valid" });
 
         }
+        public IActionResult Edit(int id)
+        {
+            TableContext _context = HttpContext.RequestServices.GetService<TableContext>();
+            Table record = _context.SearchTable(id);
 
+            return View(record);
+        }
+        [HttpPost]
+        public IActionResult Edit(Table data)
+        {
+            if (ModelState.IsValid)
+            {
+                TableContext _context = HttpContext.RequestServices.GetService<TableContext>();
+                bool res = _context.EditRow(data);
+                if (!res)
+                {
+                    ViewBag.msg = "Something went wrong while updating info";                }
+                else
+                {
+                    ViewBag.msg = "Row updated succesfully";
+                }
+            }
+            return View(data);
+        }
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {

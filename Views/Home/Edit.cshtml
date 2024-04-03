@@ -1,0 +1,24 @@
+﻿@using MySqlTest.Models;
+@model Table;
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+@if (ViewBag.msg != null)
+{
+    <h1>@ViewBag.msg</h1>
+}
+
+@using (Html.BeginForm("Edit", "Home", FormMethod.Post))
+{
+    <label>Id</label>
+    @Html.TextBoxFor(x => x.Id, new { @disabled = "disabled" })
+    <br>
+    <label>Name</label>
+    @Html.TextBoxFor(x => x.Name)
+    <br />
+    <input type="submit" value="submit" />
+}
+@Html.ActionLink("Go back", "Index")
+
