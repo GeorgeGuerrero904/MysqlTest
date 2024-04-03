@@ -27,6 +27,7 @@ namespace MySqlTest.Controllers
         }
 
         [HttpPost]
+        [AutoValidateAntiforgeryToken]
         public IActionResult create(string name)
         {
             if (ModelState.IsValid)

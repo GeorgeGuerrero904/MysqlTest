@@ -7,18 +7,68 @@
 <h1>Edit</h1>
 @if (ViewBag.msg != null)
 {
-    <h1>@ViewBag.msg</h1>
+    <div class="toast-container position-absolute p-3 top-0 end-0" id="toastPlacement">
+        <div class="toast" id="Ctoast" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-header">
+                <strong class="me-auto">MySqlTest</strong>
+                <small>Just now</small>
+                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+            <div class="toast-body">
+                @ViewBag.msg
+            </div>
+        </div>
+    </div>
 }
 
-@using (Html.BeginForm("Edit", "Home", FormMethod.Post))
+@using (Html.BeginForm("Edit", "Home", FormMethod.Post, new { @class = "col-7 border p-3 needs-validation", novalidate = "novalidate" }))
 {
-    <label>Id</label>
-    @Html.TextBoxFor(x => x.Id, new { @disabled = "disabled" })
-    <br>
-    <label>Name</label>
-    @Html.TextBoxFor(x => x.Name)
-    <br />
-    <input type="submit" value="submit" />
-}
-@Html.ActionLink("Go back", "Index")
+    <label class="form-label">Id</label>
+    @Html.TextBoxFor(x => x.Id, new { @disabled = "disabled", @class = "form-control" })
 
+    <label class="form-label">Name</label>
+    @Html.TextBoxFor(x => x.Name, new { @class = "form-control" })
+    <div class="invalid-feedback">
+        This field is required
+    </div>
+    <input type="submit" value="submit" class="btn btn-primary mt-3" />
+}
+
+
+@Html.ActionLink("Go back", "Index", new { }, new { @class = "btn btn-primary mt-5" })
+
+
+
+@section Scripts {
+    <script>
+
+        var toastElList = [].slice.call(document.querySelectorAll('.toast'))
+        var toastList = toastElList.map(function (toastEl) {
+            return new bootstrap.Toast(toastEl, {})
+        });
+
+        var myToastEl = document.getElementById('Ctoast');
+        var myToast = bootstrap.Toast.getInstance(myToastEl);
+        myToast.show();
+
+        (function () {
+            'use strict'
+
+            // Fetch all the forms we want to apply custom Bootstrap validation styles to
+            var forms = document.querySelectorAll('.needs-validation')
+
+            // Loop over them and prevent submission
+            Array.prototype.slice.call(forms)
+                .forEach(function (form) {
+                    form.addEventListener('submit', function (event) {
+                        if (!form.checkValidity()) {
+                            event.preventDefault()
+                            event.stopPropagation()
+                        }
+                        form.classList.add('was-validated')
+                    }, false)
+                })
+        })()
+
+    </script>
+}

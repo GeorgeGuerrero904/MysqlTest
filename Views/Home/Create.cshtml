@@ -4,11 +4,38 @@
 
 <h1>Create</h1>
 
-@using (Html.BeginForm("create", "home", FormMethod.Post))
+@using (Html.BeginForm("create", "home", FormMethod.Post, new { @class = "col-7 border p-3 needs-validation", novalidate = "novalidate" }))
 {
     @Html.AntiForgeryToken()
-    <label for="name">Name</label>
-    @Html.TextBox("name", "", new { id = "name" })
-    <input type="submit" value="Submit" />
+    <label for="name" class="form-label">Name</label>
+    @Html.TextBox("name", "", new { id = "name", @class = "form-control", @required = "required" })
+    <div class="invalid-feedback">
+        This field is required
+    </div>
+    <input type="submit" value="Submit" class="btn btn-primary mt-3" />
 
+}
+@Html.ActionLink("Go back", "Index", new{}, new { @class = "btn btn-primary mt-5" })
+
+@section Scripts {
+    <script>
+        (function () {
+            'use strict'
+
+            // Fetch all the forms we want to apply custom Bootstrap validation styles to
+            var forms = document.querySelectorAll('.needs-validation')
+
+            // Loop over them and prevent submission
+            Array.prototype.slice.call(forms)
+                .forEach(function (form) {
+                    form.addEventListener('submit', function (event) {
+                        if (!form.checkValidity()) {
+                            event.preventDefault()
+                            event.stopPropagation()
+                        }
+                        form.classList.add('was-validated')
+                    }, false)
+                })
+        })()
+    </script>
 }
